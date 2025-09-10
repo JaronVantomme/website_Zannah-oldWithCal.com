@@ -1,0 +1,203 @@
+<section class="policy">
+    <header class="policy__header">
+      <h1>Juridische informatie</h1>
+      <p class="policy__subtitle">Laatste update: <time [attr.datetime]="site.lastUpdatedISO">{{ site.lastUpdatedHuman }}</time></p>
+    </header>
+  
+    <!-- ================= PRIVACYVERKLARING ================= -->
+    <article class="block">
+      <h2>Privacyverklaring</h2>
+  
+      <h3>Wie is verantwoordelijk?</h3>
+      <p>
+        Voor de website <a [href]="site.siteUrl" target="_blank" rel="noopener">{{ site.siteUrl }}</a> treedt
+        <strong>{{ controller.legalName }}</strong> ("{{ controller.displayName }}" — {{ controller.roleLabel || 'dienstverlener' }}) op als
+        <em>verwerkingsverantwoordelijke</em>. De partij <strong>{{ processor.legalName }}</strong>
+        ("{{ processor.displayName }}" — {{ processor.roleLabel || 'partner' }}) treedt op als
+        <em>verwerker</em> en verwerkt persoonsgegevens uitsluitend volgens instructies van de verwerkingsverantwoordelijke.
+      </p>
+  
+      <h3>Welke persoonsgegevens verwerken we?</h3>
+      <ul>
+        <li>Identificatie- en contactgegevens (naam, e‑mail, telefoon).</li>
+        <li>Account- en afspraakgegevens (voor het {{ site.shopType }}).</li>
+        <li>Technische gegevens (IP-adres, browser/ toestel, sessie-ID).</li>
+        <li>Gebruiksgegevens (pagina’s, interacties, tijdstippen).</li>
+        <li>Inhoud die je zelf aanlevert via formulieren of berichten.</li>
+      </ul>
+  
+      <h3>Doeleinden en rechtsgronden</h3>
+      <ul class="checklist">
+        <li>Account/afspraken beheren en uitvoeren — <em>uitvoering overeenkomst</em>.</li>
+        <li>Klantenservice (telefonisch/e‑mail) — <em>uitvoering overeenkomst/gerechtvaardigd belang</em>.</li>
+        <li>Updates en serviceberichten — <em>gerechtvaardigd belang</em>.</li>
+        <li>Facturatie en boekhouding — <em>wettelijke verplichting</em>.</li>
+        <li>Website-analyse/verbetering — <em>toestemming (cookies) of gerechtvaardigd belang</em>.</li>
+        <li>Marketing (indien ingeschreven) — <em>toestemming</em>.</li>
+      </ul>
+  
+      <h3>Bewaartermijnen</h3>
+      <ul>
+        <li>Accountgegevens: {{ retention.accountData }}.</li>
+        <li>Afspraakgegevens: {{ retention.appointments }}.</li>
+        <li>Contactformulieren: {{ retention.contactForms }}.</li>
+        <li>Analytics: {{ retention.analytics }}.</li>
+        <li>Bestel-/factuurgegevens: {{ retention.orderData }}.</li>
+      </ul>
+  
+      <h3>Ontvangers/verwerkers</h3>
+      <p>Wij delen gegevens alleen met partijen die nodig zijn voor de dienstverlening en waarmee (indien vereist) een verwerkersovereenkomst is gesloten:</p>
+      <table class="table">
+        <thead>
+          <tr><th>Partij</th><th>Doel</th><th>Locatie</th><th>DPA</th></tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let p of processors">
+            <td>{{ p.name }}</td>
+            <td>{{ p.purpose }}</td>
+            <td>{{ p.location }}</td>
+            <td>{{ p.dpa ? 'Ja' : 'Nee' }}</td>
+          </tr>
+        </tbody>
+      </table>
+  
+      <h3>Kinderen</h3>
+      <p>Wij richten ons niet op kinderen jonger dan 16 jaar. Indien je vermoedt dat wij zonder toestemming gegevens van een minderjarige hebben verzameld, neem contact op via <a [href]="'mailto:' + (controller.dpo?.email || controller.email)">{{ controller.dpo?.email || controller.email }}</a>; wij verwijderen deze informatie.</p>
+  
+      <h3>Jouw rechten</h3>
+      <p>Je hebt recht op inzage, rectificatie, verwijdering, beperking, dataportabiliteit en bezwaar. Je kunt je verzoek richten aan de verwerkingsverantwoordelijke via onderstaand contact. Je kunt tevens een klacht indienen bij de Gegevensbeschermingsautoriteit (België).</p>
+  
+      <details class="muted note">
+        <summary>Contact verwerkingsverantwoordelijke</summary>
+        <ul class="contact">
+          <li><span>Naam</span> {{ controller.legalName }} ({{ controller.displayName }})</li>
+          <li *ngIf="controller.url"><span>Website</span> <a [href]="controller.url" target="_blank" rel="noopener">{{ controller.url }}</a></li>
+          <li><span>E‑mail</span> <a [href]="'mailto:' + (controller.dpo?.email || controller.email)">{{ controller.dpo?.email || controller.email }}</a></li>
+          <li *ngIf="controller.phone"><span>Telefoon</span> <a [href]="'tel:' + controller.phone">{{ controller.phone }}</a></li>
+          <li><span>Adres</span> {{ controller.address.street }}, {{ controller.address.postalCode }} {{ controller.address.city }}, {{ controller.address.country }}</li>
+          <li *ngIf="controller.vat"><span>BTW</span> {{ controller.vat }}</li>
+          <li *ngIf="controller.dpo"><span>FG/DPO</span> {{ controller.dpo.name }} — {{ controller.dpo.email }}</li>
+        </ul>
+      </details>
+  
+      <h3>Beveiliging</h3>
+      <p>Wij nemen passende technische en organisatorische maatregelen (o.a. TLS/HTTPS, toegangsbeheer, back‑ups, logging en dataminimalisatie) om misbruik, verlies, onbevoegde toegang en ongewenste openbaarmaking te voorkomen.</p>
+    </article>
+  
+    <!-- ================= ALGEMENE VOORWAARDEN ================= -->
+    <article class="block">
+      <h2>Algemene Voorwaarden</h2>
+  
+      <h3>Identiteit</h3>
+      <p>
+        Naam onderneming: {{ controller.legalName }} ("{{ controller.displayName }}")<br>
+        Website: <a [href]="site.siteUrl" target="_blank" rel="noopener">{{ site.siteUrl }}</a><br>
+        Adres: {{ controller.address.street }}, {{ controller.address.postalCode }} {{ controller.address.city }}, {{ controller.address.country }}<br>
+        E‑mail: <a [href]="'mailto:' + (controller.dpo?.email || controller.email)">{{ controller.dpo?.email || controller.email }}</a><br>
+        <span *ngIf="controller.phone">Telefoon: <a [href]="'tel:' + controller.phone">{{ controller.phone }}</a><br></span>
+        <span *ngIf="controller.vat">BTW/KBO: {{ controller.vat }}</span>
+      </p>
+  
+      <h3>Toepasselijkheid</h3>
+      <p>Deze voorwaarden zijn van toepassing op elk aanbod van {{ controller.displayName }} en op elke overeenkomst op afstand die tot stand komt via {{ site.siteUrl }} tussen {{ controller.displayName }} en de consument.</p>
+  
+      <h3>Aanbod en prijzen</h3>
+      <p>Alle prijzen zijn in euro en inclusief btw, tenzij anders vermeld. Kennelijke fouten of vergissingen binden {{ controller.displayName }} niet.</p>
+  
+      <h3>Bestelling, betaling en levering</h3>
+      <ul>
+        <li>Betaling via de op de website aangeboden methoden.</li>
+        <li>Levering/dienstverlening volgens gekozen datum/slot (voor het {{ site.shopType }}: afspraken op locatie {{ client.address.city }}).</li>
+        <li>Eigendom gaat over na volledige betaling (indien van toepassing).</li>
+      </ul>
+  
+      <h3>Herroepingsrecht</h3>
+      <p>Consumenten hebben 14 dagen herroepingstermijn voor op afstand gesloten overeenkomsten, tenzij wettelijk uitgezonderd (bijv. volledig uitgevoerde diensten binnen de bedenktijd op uitdrukkelijk verzoek, gepersonaliseerde producten of hygiëneproducten waarvan de verzegeling is verbroken).</p>
+  
+      <h3>Klachten</h3>
+      <p>Klachten kunnen worden gericht aan {{ controller.displayName }} via het contact hieronder. Wij streven ernaar binnen 14 dagen te reageren. Bij online geschillen: EU ODR-platform.</p>
+  
+      <h3>Aansprakelijkheid</h3>
+      <p>{{ controller.displayName }} is niet aansprakelijk voor gevolgschade, indirecte schade of gederfde winst, behalve bij opzet of grove nalatigheid. Wettelijke consumentenrechten blijven onaangetast.</p>
+  
+      <h3>Toepasselijk recht</h3>
+      <p>Belgisch recht is van toepassing. Geschillen worden voorgelegd aan de bevoegde rechtbank in het arrondissement van {{ controller.address.city }}, tenzij dwingend recht anders bepaalt.</p>
+  
+      <details class="muted note">
+        <summary>Contact voor contractuele vragen</summary>
+        <ul class="contact">
+          <li><span>Naam</span> {{ controller.legalName }} ({{ controller.displayName }})</li>
+          <li><span>E‑mail</span> <a [href]="'mailto:' + (controller.dpo?.email || controller.email)">{{ controller.dpo?.email || controller.email }}</a></li>
+          <li *ngIf="controller.phone"><span>Telefoon</span> <a [href]="'tel:' + controller.phone">{{ controller.phone }}</a></li>
+          <li><span>Adres</span> {{ controller.address.street }}, {{ controller.address.postalCode }} {{ controller.address.city }}, {{ controller.address.country }}</li>
+        </ul>
+      </details>
+    </article>
+  
+    <!-- ================= COOKIEBELEID ================= -->
+    <article class="block">
+      <h2>Cookiebeleid</h2>
+      <p>{{ site.siteName }} gebruikt cookies voor functionele doeleinden, statistiek en (indien aan) marketing. Bij je eerste bezoek vragen wij toestemming via de cookiebanner. Je kunt je voorkeuren nadien wijzigen.</p>
+  
+      <details class="cookie-table">
+        <summary>Overzicht cookies</summary>
+        <table>
+          <thead>
+            <tr>
+              <th>Provider</th>
+              <th>Naam</th>
+              <th>Doel</th>
+              <th>Bewaartermijn</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let c of cookies">
+              <td>{{ c.provider }}</td>
+              <td>{{ c.name }}</td>
+              <td>{{ c.purpose }}</td>
+              <td>{{ c.retention }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </details>
+  
+      <p>Je kunt cookies uitschakelen via je browserinstellingen. Sommige functies van de website werken mogelijk minder goed zonder cookies.</p>
+    </article>
+  
+    <!-- ================= DISCLAIMER ================= -->
+    <article class="block">
+      <h2>Disclaimer</h2>
+      <p>De inhoud van deze website is met zorg samengesteld. Desondanks kan {{ controller.displayName }} niet instaan voor de volledigheid of juistheid van de informatie. Gebruik van informatie is voor eigen risico. Voor inhoud van externe links zijn wij niet verantwoordelijk.</p>
+    </article>
+  
+    <!-- ================= GEGEVENS IN FOOTER (ingeklapt) ================= -->
+    <footer class="policy__footer">
+      <details>
+        <summary>Contactgegevens & wettelijke info</summary>
+        <div class="grid-2">
+          <div>
+            <h4>Verwerkingsverantwoordelijke</h4>
+            <ul class="contact">
+              <li><span>Naam</span> {{ controller.legalName }} ({{ controller.displayName }})</li>
+              <li *ngIf="controller.url"><span>Website</span> <a [href]="controller.url" target="_blank" rel="noopener">{{ controller.url }}</a></li>
+              <li><span>E‑mail</span> <a [href]="'mailto:' + (controller.dpo?.email || controller.email)">{{ controller.dpo?.email || controller.email }}</a></li>
+              <li *ngIf="controller.phone"><span>Telefoon</span> <a [href]="'tel:' + controller.phone">{{ controller.phone }}</a></li>
+              <li><span>Adres</span> {{ controller.address.street }}, {{ controller.address.postalCode }} {{ controller.address.city }}, {{ controller.address.country }}</li>
+              <li *ngIf="controller.vat"><span>BTW/KBO</span> {{ controller.vat }}</li>
+            </ul>
+          </div>
+          <div>
+            <h4>Verwerker / partner</h4>
+            <ul class="contact">
+              <li><span>Naam</span> {{ processor.legalName }} ({{ processor.displayName }})</li>
+              <li *ngIf="processor.url"><span>Website</span> <a [href]="processor.url" target="_blank" rel="noopener">{{ processor.url }}</a></li>
+              <li><span>E‑mail</span> <a [href]="'mailto:' + (processor.dpo?.email || processor.email)">{{ processor.dpo?.email || processor.email }}</a></li>
+              <li *ngIf="processor.phone"><span>Telefoon</span> <a [href]="'tel:' + processor.phone">{{ processor.phone }}</a></li>
+              <li><span>Adres</span> {{ processor.address.street }}, {{ processor.address.postalCode }} {{ processor.address.city }}, {{ processor.address.country }}</li>
+              <li *ngIf="processor.vat"><span>BTW/KBO</span> {{ processor.vat }}</li>
+            </ul>
+          </div>
+        </div>
+      </details>
+    </footer>
+  </section>

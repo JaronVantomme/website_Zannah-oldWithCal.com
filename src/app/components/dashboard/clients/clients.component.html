@@ -1,0 +1,69 @@
+<div class="clients-container">
+    <div class="customers-container">
+        <h2>Klantenoverzicht</h2>
+    
+        <div *ngIf="isLoading" class="loader-container">
+        <div class="spinner"></div>
+        </div>
+    
+        <div *ngIf="!isLoading" class="customer-list">
+        <div *ngFor="let customer of customers" class="customer-card" (click)="openCustomerDetail(customer)">
+            <div class="customer-avatar">
+            {{ getInitials(customer.name) }}
+            </div>
+            <div class="customer-info">
+            <p class="customer-name">{{ customer.name }}</p>
+            <p class="customer-email">{{ customer.email }}</p>
+            <p class="customer-phone">{{ customer.phone }}</p>
+            </div>
+        </div>
+        </div>
+    </div>
+    
+    <!-- Customer Detail Modal -->
+    <div class="customer-modal" *ngIf="selectedCustomer">
+        <div class="modal-content">
+          <button class="close-btn" (click)="closeModal()">✕</button>
+      
+          <!-- Header -->
+          <div class="modal-header">
+            <h2>{{ selectedCustomer.name }}
+              <span class="status-dot" [ngClass]="selectedCustomer.isBlocked ? 'blocked' : 'active'"></span>
+            </h2>
+          </div>
+      
+          <!-- User Info -->
+          <div class="user-info">
+            <p><strong>Email:</strong> {{ selectedCustomer.email }}</p>
+            <p><strong>Telefoon:</strong> {{ selectedCustomer.phone }}</p>
+          </div>
+      
+          <!-- Acties -->
+          <div class="actions">
+            <button class="block-btn" (click)="toggleBlockUser(selectedCustomer)">
+              {{ selectedCustomer.isBlocked ? 'Deblokkeren' : 'Blokkeren' }}
+            </button>
+          </div>
+      
+          <!-- Nieuwe Afspraak -->
+          <button class="new-booking-wide" (click)="createBooking(selectedCustomer)">
+            ➕ Nieuwe afspraak
+          </button>
+      
+          <!-- Afspraken Historiek -->
+          <h3>Afspraken Historiek</h3>
+          <ul class="appointments-list">
+            <li *ngFor="let appt of selectedCustomer.appointments">
+              <span>{{ appt.date | date:'short' }} - {{ appt.status }}</span>
+              <div class="appt-buttons">
+                <button (click)="rescheduleAppointment(appt)">Verplaatsen</button>
+                <button (click)="cancelAppointment(appt)">Annuleren</button>
+              </div>
+            </li>
+            <li *ngIf="selectedCustomer.appointments.length === 0">
+              Geen afspraken gevonden.
+            </li>
+          </ul>
+        </div>
+    </div>
+</div>

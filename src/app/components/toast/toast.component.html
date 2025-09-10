@@ -1,0 +1,9 @@
+<div *ngIf="toast" class="fixed bottom-5 right-5 z-50 w-[320px] rounded-md shadow-xl overflow-hidden backdrop-blur-sm bg-background-dark-0/80 text-white animate-fade-in-out z-[99999]" [ngClass]="{ 'border-darkPink-0': toast.type === 'success', 'border-red-400': toast.type === 'error', 'border-blue-400': toast.type === 'info' }">
+  <div class="p-4">
+    <h4 class="font-bold text-lg mb-1">{{ toast.title }}</h4>
+    <p class="text-sm">{{ toast.text }}</p>
+  </div>
+  <div class="h-1 bg-pink-200">
+    <div class="h-full bg-darkPink-0 transition-all duration-100" [style.width.%]="progress" style="transform-origin: right; transform: scaleX(1);"></div>
+  </div>
+</div>

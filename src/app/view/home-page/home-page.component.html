@@ -1,0 +1,269 @@
+<!-- Pop-up Container -->
+<div *ngIf="showLoginPoppup" id="popup" class="fixed inset-0 flex items-center justify-center bg-black-0 bg-opacity-50 z-50 ">
+    <div class="bg-white-0 rounded-lg shadow-lg max-w-sm w-full p-6 relative">
+        <!-- Close Button -->
+        <button (click)="togglePopup()" class="absolute top-4 right-4 text-gray-500 hover:opacity-80">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+            </svg>
+        </button>
+        
+        <div class="text-center">
+            <h2 class="text-xl font-semibold mb-4">Login Vereist</h2>
+            <p class="text-darkGray-0 mb-4">Je moet ingelogd zijn om een booking te kunnen maken. Log in om verder te gaan.</p>
+            <button (click)="navigateTo('/login-booking')" class="w-full h-[50px] bg-darkPink-0 text-white-0 rounded-lg mt-4 hover-effect">Naar Login</button>
+        </div>
+    </div>
+</div>
+
+<app-calendar-popup
+    *ngIf="isModalOpen"
+    [bookingData]="this.bookingData"
+    (close)="isModalOpen = false">
+</app-calendar-popup>
+
+<main>
+    <!-- WELKOM SCHERM -->
+    <div id="welkom" class="flex h-ownScreen w-screen bg-background-dark-0 desktop:justify-between desktop:px-[100px] bigDesktop:px-[200px] mx-auto">
+        <section class="flex flex-col h-ownScreen justify-center smallMobile:pr-0 mobile:pr-0 pr-8 smallMobile:w-screen mobile:w-screen desktop:w-fit smallMobile:text-center mobile:text-center desktop:text-left translate-y-0 smallMobile:-translate-y-10 mobile:-translate-y-10">
+            <p class="smallMobile:mobileTitle1 mobile:mobileTitle1 desktop:desktopTitle1 bigDesktop:desktopTitle1 desktop:text-left">Welkom</p>
+            <p class="smallMobile:mobileTitle2 mobile:mobileTitle2 desktop:desktopTitle2 bigDesktop:desktopTitle2">Jouw Stijl,</p>
+            <p class="smallMobile:mobileTitle2 mobile:mobileTitle2 desktop:desktopTitle2 bigDesktop:desktopTitle2">Mijn Zorg</p>
+            <p class="smallMobile:mobileTitle3 mobile:mobileTitle3 desktop:desktopTitle3 bigDesktop:desktopTitle3 smallMobile:w-[360px] mobile:w-[360px] desktop:w-[500px] bigDesktop:w-[500px] mt-2 smallMobile:mx-auto mobile:mx-auto desktop:mx-0 smallMobile:text-center mobile:text-center desktop:text-left">Welkom bij de plek waar persoonlijke aandacht voor je haar en nagels centraal staat.</p>
+            <button (click)="scrollTo('services')" class="hover-effect button-custom bg-darkPink-0 text-white-0 w-[250px] h-[60px] font-rubik smallMobile:font-[40px] mobile:font-[40px] font-[15px] rounded-lg mt-12 select-none smallMobile:mx-auto mobile:mx-auto desktop:mx-0 focus-within::ring-offset-0 focus-within:outline-2 focus-within:outline-white-0 focus-within:shadow-2xl">
+                Boek een afspraak
+            </button>
+                   
+        </section>
+        <section class="z-10 w-[500px] min-w-[550px] h-ownScreenPicture border-[20px] border-white-0 object-cover shadow-lg smallMobile:hidden mobile:hidden desktop:flex">
+            <img class="h-full w-full" src="https://images2.imgbox.com/d2/20/sYg4AfRR_o.jpg" alt="foto haar">
+        </section>
+    </div>
+
+    <!-- OVER MEZELF SCHERM -->
+    <div id="over-mezelf" class="min-h-ownScreenSecondPicture w-screen flex bigDesktop:flex-row desktop:flex-row mobile:flex-row smallMobile:flex-col overflow-hidden bg-white-0">
+        <section class="flex-shrink-0 bigDesktop:w-squareImageWidth bigDesktop:h-squareImageHeight desktop:h-squareImageHeight desktop:w-squareImageWidth mobile:h-squareImageHeight mobile:w-squareImageWidth smallMobile:h-squareImageHeightSmall smallMobile:w-squareImageWidthSmall">
+            <img class="h-full w-full object-cover max-h-ownScreenSecondPicture" src="https://images2.imgbox.com/8c/8c/KvFAJiPR_o.jpg" alt="foto nagels">
+        </section>
+        <section class="flex flex-col mx-auto justify-center p-6 md:ml-10 bigDesktop:w-squareImageWidth bigDesktop:h-squareImageHeight desktop:h-squareImageHeight desktop:w-squareImageWidth mobile:h-squareImageHeight mobile:w-squareImageWidth smallMobile:h-squareImageHeightSmall smallMobile:w-squareImageWidthSmall">
+            <p class="smallMobile:mobileTitle1 mobile:mobileTitle1 desktop:desktopTitle1 bigDesktop:desktopTitle1 bigDesktop:text-left desktop:text-left mobile:text-left smallMobile:text-center">Over mezelf</p>
+            <p class="smallMobile:mobileTitle2 mobile:mobileTitle2 desktop:desktopTitle2 bigDesktop:desktopTitle2 bigDesktop:text-left desktop:text-left mobile:text-left smallMobile:text-center">Nagels en haar,</p>
+            <p class="smallMobile:mobileTitle2 mobile:mobileTitle2 desktop:desktopTitle2 bigDesktop:desktopTitle2 bigDesktop:text-left desktop:text-left mobile:text-left smallMobile:text-center">Verzorging</p>
+            <p class="smallMobile:mobileTitle3 mobile:mobileTitle3 desktop:desktopTitle3 bigDesktop:desktopTitle3 w-[500px] mt-2 smallMobile:w-full mobile:w-full desktop:w-[500px] bigDesktop:w-[500px] bigDesktop:text-left desktop:text-left mobile:text-left smallMobile:text-center px-0">Ervaren in het creëren van prachtige haarstijlen en nagels.</p>    
+        </section>
+    </div>
+
+    <!-- MIJN SERVICES SCHERM -->
+    <div id="services" class="flex flex-col items-center bg-lightPink-0 smallMobile:pb-16 mobile:pb-16 desktop:pb-5 bigDesktop:pb-5 w-screen overflow-x-hidden">
+        <p class="smallMobile:mobileTitle1 mobile:mobileTitle1 desktop:desktopTitle1 bigDesktop:desktopTitle1 smallMobile:mt-[80px] mobile:mt-[80px] desktop:mt-[120px] bigDesktop:mt-[120px]">Mijn services</p>
+        <p class="smallMobile:mobileTitle2 mobile:mobileTitle2 desktop:desktopTitle2 bigDesktop:desktopTitle2 text-center">Plan je afspraak hier</p>
+        <div class="flex flex-row mt-2 w-full justify-center gap-10 select-none">
+            <div *ngFor="let sectionName of getUniqueSectionNames()">
+                <button [ngClass]="{'selectedServices selected': selectedService === sectionName, 'nav-button': true}" 
+                    class="desktopTitle3 text-center w-fit cursor-pointer focus-within:outline-none focus-within:text-darkPink-0 focus-within:font-bold focus-within:opacity-80" 
+                    (click)="changeServices(sectionName)">
+                    {{sectionName}}
+            </button>
+            </div>
+        </div>
+
+        <section class="flex gap-[15px] w-screen bigDesktop:px-40 desktop:px-40 mobile:px-20 smallMobile:px-5 select-none">
+            <div class="bigDesktop:w-3/4 desktop:w-3/4 mobile:w-3/4 smallMobile:w-screen mt-10 max-h-[600px] overflow-y-scroll">
+                <div *ngFor="let section of filterNagelsSections(sections); let i = index">
+                  <button (click)="toggleSection(i)" 
+                          [ngClass]="{
+                            'bg-accentDarkPink-0 rounded-tl-lg rounded-tr-lg': section.isVisible,
+                            'bg-white-0 border-b-[1px] border-lightPink-0': !section.isVisible
+                          }" 
+                          class="flex h-16 w-full justify-between hover-effect2 focus-within:ring-offset-8 focus-within:outline-8 focus-within:outline-darkPink-0 focus-within:shadow-2xl">
+                    <p class="pl-[20px] flex h-full items-center font-rubik text-[19px] md:text-[24px] font-bold"
+                       [ngClass]="{
+                         'text-white-0': section.isVisible,
+                         'text-darkPink-0': !section.isVisible
+                       }">
+                      {{ section.title }}
+                    </p>
+                    <div class="flex w-[40px] h-[40px] my-auto pr-3">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chevron-right flex items-center h-full"
+                           [ngClass]="{
+                             'text-white-0': section.isVisible,
+                             'text-darkPink-0': !section.isVisible,
+                             'rotate-90': section.isVisible
+                           }">
+                        <path d="m9 18 6-6-6-6"/>
+                      </svg>
+                    </div>
+                  </button>
+                  <section *ngIf="section.isVisible">
+                    <div *ngFor="let item of section.items" class="flex w-full border-b-[1px] border-gray-0 h-[100px] bg-white-0 justify-between items-center px-5 gap-3">
+                      <div class="flex flex-col font-rubik">
+                        <p class="text-[17px] font-semibold ">{{ item.name }}</p>
+                        <p class="text-[15px] text-darkGray-0">Vanaf €{{ item.price }} ({{ formatTime(item.duration) }})</p>
+                      </div>
+                      <button (click)="selectItem(item)" class="h-1/2 bg-darkPink-0 rounded-lg text-white-0 min-w-[100px] hover-effect focus-within::ring-offset-0 focus-within:outline-2 focus-within:outline-black-0 focus-within:shadow-xl">Selecteer</button>
+                    </div>
+                  </section>
+                </div>
+              </div>
+              
+
+            <div class="relative bigDesktop:w-3/4 desktop:w-3/4 mobile:w-3/4 smallMobile:w-3/4 mt-10 bg-white-0 min-h-[500px] rounded-lg bigDesktop:flex desktop:flex mobile:flex smallMobile:hidden flex-col max-h-[600px] overflow-y-scroll">
+                <header class="flex relative h-[65px] w-full rounded-tl-lg rounded-tr-lg">
+                    <p class="flex top-0 left-0 w-full h-full items-center font-playfair text-[26px] text-darkPink-0 font-bold justify-center">Geselecteerde services</p>
+                </header>
+                <div *ngIf="orders.length > 0" class="h-[400px] overflow-y-scroll">
+                    <section *ngFor="let order of orders" class="flex w-11/12 justify-between font-rubik px-5 py-2 border-b-[1px] border-gray-0 mx-auto">
+                      <div class="flex flex-col py-2">
+                        <p class="text-[20px] font-semibold">{{ order.name }}</p>
+                        <p class="text-[17px] text-darkGray-0">Vanaf €{{ order.price }} ({{ formatTime(order.duration) }})</p>
+                      </div>
+                      <div class="flex flex-row gap-4 h-full my-auto items-center justify-center">
+                        <button class="w-[30px] h-[30px] text-white-0 bg-darkPink-0 rounded-sm select-none hover-effect" (click)="updateQuantity(order, -1)">-</button>
+                        <p class="font-[20px] text-center">{{ order.quantity }}</p>
+                        <button class="w-[30px] h-[30px] text-white-0 bg-darkPink-0 rounded-sm select-none hover-effect" (click)="updateQuantity(order, 1)">+</button>
+                    </div>
+                    </section>
+                </div>
+                <div *ngIf="orders.length === 0" class="flex h-[400px] overflow-y-scroll justify-center pt-5">
+                    <p class="desktopTitle3">Je hebt nog geen services geselecteerd.</p>
+                </div>
+
+                <footer id="footerTotalPrice" class="p-5 bg-white-0">
+                    <div class="flex justify-between text-[20px] font-bold pb-5">
+                      <p>Totale prijs:</p>
+                      <p>Vanaf €{{ totalPrice }} ({{ formatTime(totalDuration) }})</p>
+                    </div>
+                    <button *ngIf="orders.length === 0" class="w-full h-[50px] bg-darkPink-0 text-white-0 select-none opacity-50 cursor-not-allowed">Ga verder</button>
+                    <button *ngIf="orders.length > 0" (click)="openBookingModal()" class="w-full h-[50px] bg-darkPink-0 text-white-0 select-none hover-effect">
+                        Ga verder
+                    </button>   
+                    <!-- <button *ngIf="orders.length > 0"
+                        class="w-full h-[50px] bg-darkPink-0 text-white-0 select-none hover-effect" 
+                        data-cal-namespace="" 
+                        [attr.data-cal-link]="getCalendarID(totalDuration)" 
+                        [attr.data-cal-config]="getCalConfig()">
+                        Ga verder
+                    </button>    -->
+                </footer>
+            </div>              
+        </section>
+    </div>
+
+    <!-- CONTACTEN SCHERM -->
+    <div id="contact" class="flex flex-col items-center bg-white-0 pb-16 w-screen px-10">
+        <p class="smallMobile:mobileTitle1 mobile:mobileTitle1 desktop:desktopTitle1 bigDesktop:desktopTitle1 smallMobile:mt-[80px] mobile:mt-[80px] desktop:mt-[120px] bigDesktop:mt-[120px]">Contacten</p>
+        <p class="smallMobile:mobileTitle2 mobile:mobileTitle2 desktop:desktopTitle2 bigDesktop:desktopTitle2">Contacteer mij</p>
+        <p class="smallMobile:mobileTitle3 mobile:mobileTitle3 desktop:desktopTitle3 bigDesktop:desktopTitle3 w-full text-center pb-8 pt-4">Bezoek mijn salon of contacteer mij.</p>
+
+        <section class="bigDesktop:w-ownScreenSecondPicture desktop:w-ownScreenSecondPicture mobile:w-ownScreenSecondPicture smallMobile:w-90vw h-[300px] border-[15px] border-background-dark-0 shadow-lg overflow-hidden">
+            <iframe class="w-full h-full" [src]="mapUrl" style="border:0;" allowfullscreen loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+        </section>
+
+        <section class="w-screen flex flex-wrap justify-between h-fit max-w-[860px] px-10">
+            <!-- ADDRESS -->
+            <div class="flex gap-3 cursor-pointer w-[260px] h-[70px] mt-[50px]" (click)="openAddressPage(address)">
+                <div class="flex w-[70px] h-[70px] bg-lightPink-0 rounded-full justify-center items-center">
+                    <svg width="34" height="34" viewBox="0 0 34 34" fill="none" xmlns="http://www.w3.org/2000/svg"><g clip-path="url(#clip0_48_113)"><path fill-rule="evenodd" clip-rule="evenodd" d="M17 9.5625C15.2394 9.5625 13.8125 10.9894 13.8125 12.75C13.8125 14.5106 15.2394 15.9375 17 15.9375C18.7606 15.9375 20.1875 14.5106 20.1875 12.75C20.1875 10.9894 18.7606 9.5625 17 9.5625ZM17 18.0625C14.0664 18.0625 11.6875 15.6846 11.6875 12.75C11.6875 9.81538 14.0664 7.4375 17 7.4375C19.9336 7.4375 22.3125 9.81538 22.3125 12.75C22.3125 15.6846 19.9336 18.0625 17 18.0625ZM17 0C9.95881 0 4.25 5.70881 4.25 12.75C4.25 18.0816 14.8803 34.0117 17 34C19.0868 34.0117 29.75 18.0094 29.75 12.75C29.75 5.70881 24.0412 0 17 0Z" fill="#911439"/></g><defs><clipPath id="clip0_48_113"><rect width="34" height="34" fill="white"/></clipPath></defs></svg>                        
+                </div>
+                <div class="flex flex-col justify-center">
+                    <p class="text-[20px] font-rubik font-semibold">Address</p>
+                    <p class="text-[12px] font-rubik">
+                        <span *ngFor="let line of addressLines; let isLast = last">
+                            {{ line }}<br *ngIf="!isLast">
+                        </span>
+                    </p>                
+                </div>
+            </div>
+
+            <!-- PHONENUMBER -->
+            <div class="flex gap-3 cursor-pointer w-[260px] h-[70px] mt-[50px]" (click)="callPhoneNumber(phoneNumber)">
+                <div class="flex w-[70px] h-[70px] bg-lightPink-0 rounded-full justify-center items-center">
+                    <svg width="34" height="34" viewBox="0 0 34 34" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M22.0379 20.6092L21.3927 21.2885C21.3927 21.2885 19.859 22.9032 15.6727 18.4959C11.4865 14.0885 13.0202 12.4738 13.0202 12.4738L13.4265 12.0461C14.4275 10.9923 14.5218 9.30037 13.6485 8.06522L11.8621 5.53861C10.7812 4.00988 8.69261 3.80793 7.45372 5.11224L5.23012 7.45328C4.61582 8.10002 4.20417 8.93839 4.25409 9.86841C4.3818 12.2477 5.3985 17.3669 11.0718 23.3399C17.088 29.6738 22.733 29.9255 25.0414 29.6977C25.7716 29.6256 26.4065 29.2319 26.9182 28.6932L28.9307 26.5744C30.2892 25.1443 29.9061 22.6924 28.168 21.692L25.4615 20.1341C24.3202 19.4772 22.9299 19.6701 22.0379 20.6092Z" fill="#911439"/><path d="M18.7849 2.66326C18.8787 2.084 19.4262 1.69106 20.0055 1.78483C20.0414 1.7917 20.1568 1.81326 20.2172 1.82672C20.3382 1.85365 20.5067 1.89509 20.717 1.95633C21.1374 2.07878 21.7248 2.28053 22.4297 2.60372C23.8411 3.25079 25.7194 4.38271 27.6684 6.33176C29.6175 8.28081 30.7494 10.159 31.3964 11.5704C31.7197 12.2754 31.9214 12.8627 32.0438 13.2832C32.105 13.4934 32.1465 13.6621 32.1734 13.7829C32.1869 13.8434 32.1968 13.8919 32.2036 13.9278L32.2118 13.972C32.3054 14.5512 31.9161 15.1215 31.3369 15.2153C30.7593 15.3088 30.2152 14.9177 30.1191 14.3412C30.1161 14.3256 30.1079 14.2841 30.0993 14.2449C30.0817 14.1664 30.0515 14.042 30.0036 13.8774C29.9077 13.5483 29.7413 13.0591 29.4647 12.456C28.9125 11.2514 27.9194 9.58801 26.1658 7.83436C24.4122 6.08073 22.7488 5.08766 21.5442 4.5354C20.9411 4.25892 20.4519 4.09242 20.1227 3.99654C19.9582 3.94861 19.7514 3.90114 19.6729 3.88367C19.0963 3.78758 18.6914 3.24086 18.7849 2.66326Z" fill="#911439"/><path fill-rule="evenodd" clip-rule="evenodd" d="M19.1056 7.5497C19.2668 6.98547 19.8549 6.65876 20.4191 6.81996L20.1273 7.84159C20.4191 6.81996 20.4191 6.81996 20.4191 6.81996L20.4212 6.82056L20.4234 6.82118L20.428 6.82255L20.4391 6.82584L20.4671 6.83457C20.4884 6.8414 20.5152 6.85029 20.5469 6.86158C20.6105 6.88416 20.6947 6.91627 20.7978 6.96047C21.0042 7.04892 21.2861 7.18552 21.6326 7.39052C22.326 7.8009 23.2726 8.48258 24.3847 9.59462C25.4967 10.7067 26.1783 11.6533 26.5887 12.3467C26.7937 12.6931 26.9303 12.9751 27.0188 13.1815C27.063 13.2846 27.0952 13.3687 27.1177 13.4323C27.129 13.4641 27.1378 13.4908 27.1447 13.5122L27.1534 13.5402L27.1566 13.5512L27.1581 13.5559L27.1586 13.5581C27.1586 13.5581 27.1593 13.5601 26.1376 13.852L27.1593 13.5601C27.3206 14.1243 26.9937 14.7124 26.4296 14.8736C25.8702 15.0334 25.2872 14.7136 25.1202 14.1582L25.1149 14.1429C25.1074 14.1216 25.0919 14.0797 25.0656 14.0185C25.0132 13.8962 24.9182 13.6961 24.7601 13.429C24.4442 12.8953 23.8737 12.0888 22.882 11.0972C21.8905 10.1056 21.084 9.53513 20.5503 9.21926C20.2831 9.06113 20.0831 8.96607 19.9607 8.91365C19.8995 8.88743 19.8576 8.87179 19.8363 8.86424L19.821 8.85901C19.2657 8.69202 18.9458 8.10913 19.1056 7.5497Z" fill="#911439"/></svg>
+                </div>
+                <div class="flex flex-col justify-center">
+                    <p class="text-[20px] font-rubik font-semibold">Phone</p>
+                    <p class="text-[12px] font-rubik">{{phoneNumber}}</p>
+                </div>
+            </div>
+                        
+            <!-- EMAIL -->
+            <div class="flex gap-3 cursor-pointer w-[260px] h-[70px] mt-[50px]" (click)="sendEmail(email)">
+                <div class="flex w-[70px] h-[70px] bg-lightPink-0 rounded-full justify-center items-center">
+                    <svg width="43" height="43" viewBox="0 0 43 43" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M37.625 11.2538L21.5 25.0688L5.375 11.2538V10.4556H37.625V11.2538ZM37.625 30.7381L26.9583 23.0532L37.625 13.8149V30.7381ZM5.375 13.8149L16.0417 23.0532L5.375 30.7381V13.8149ZM21.5 27.7993L25.9088 23.9361L37.625 32.3762V32.5441H5.375V32.3762L17.0912 23.9361L21.5 27.7993Z" fill="#911439"/></svg>
+                </div>
+                <div class="flex flex-col justify-center">
+                    <p class="text-[20px] font-rubik font-semibold">Email</p>
+                    <p class="text-[12px] font-rubik">{{email}}</p>
+                </div>
+            </div>
+        </section>
+
+
+    </div>
+
+    <!-- FOTO'S SCHERM -->
+    <!-- <div id="fotos" class="flex flex-col w-screen items-center bg-white-0 pb-5 pt-5">
+        <div class="w-[350px] h-[350px] border-[15px] border-background-dark-0 shadow-lg overflow-hidden">
+        </div>
+    </div> -->
+
+    <div *ngIf="isExpanded && orders.length > 0" class="fixed w-screen h-screen bg-darkGray-0 opacity-60 bottom-0 z-50"></div>
+    <!-- <div *ngIf="!isExpanded && orders.length > 0" class="fixed w-screen h-[70px] bg-darkPink-0 opacity-20 bottom-0"></div> -->
+    <div *ngIf="orders.length > 0" class="bigDesktop:hidden desktop:hidden mobile:hidden smallMobile:fixed fixed-container bottom-0 w-screen px-3 pb-5 rounded-lg z-50" [ngClass]="{'expanded': isExpanded, 'collapsed': !isExpanded}">
+        <div class="w-full h-[50px] flex justify-between items-center px-5 font-rubik cursor-pointer shadow-xl" [ngClass]="{'bg-accentDarkPink-0 text-white-0 rounded-t-md': isExpanded, 'bg-white-0 rounded-md': !isExpanded}" (click)="toggleExpand();">
+            <p class="w-fit">{{ ordersMobileCount }}</p>
+            <button *ngIf="isExpanded">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M18 6L6 18" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M6 6L18 18" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+            </button>
+            <!-- <button *ngIf="!isExpanded"
+                class="w-[90px] h-[30px] bg-darkPink-0 text-white-0 select-none px-2 rounded-md font-light text-[12px]" 
+                data-cal-namespace="" 
+                [attr.data-cal-link]="getCalendarID(totalDuration)" 
+                [attr.data-cal-config]="getCalConfig()">
+                Ga verder
+            </button>  -->
+            <button *ngIf="!isExpanded" (click)="$event.stopPropagation(); openBookingModal()" class="w-[90px] h-[30px] bg-darkPink-0 text-white-0 select-none px-2 rounded-md font-light text-[12px]" >
+                Ga verder
+            </button>   
+        </div>
+        <div class="content">
+            <div *ngIf="isExpanded" class="h-[500px] w-full bg-white-0 relative">
+                <div class="h-[370px] overflow-y-scroll">
+                    <section *ngFor="let order of orders" class="flex w-full justify-between font-rubik px-5 py-2 border-b-[1px] border-gray-0 mx-auto">
+                        <div class="flex flex-col py-2">
+                            <p class="text-[18px] font-medium">{{ order.name }}</p>
+                            <p class="text-[15px] text-darkGray-0">Vanaf €{{ order.price }} ({{ formatTime(order.duration) }})</p>
+                        </div>
+                        <div class="flex flex-row gap-4 h-full my-auto items-center justify-center">
+                            <button class="w-[30px] h-[30px] text-white-0 bg-darkPink-0 rounded-sm select-none" (click)="updateQuantity(order, -1)">-</button>
+                            <p class="font-[20px] text-center">{{ order.quantity }}</p>
+                            <button class="w-[30px] h-[30px] text-white-0 bg-darkPink-0 rounded-sm select-none" (click)="updateQuantity(order, 1)">+</button>
+                        </div>
+                    </section>
+                </div>
+                <footer id="footerTotalPrice" class="p-5 bg-white-0 absolute bottom-0 w-full">
+                    <div class="flex text-[17px] font-bold pb-5 justify-between">
+                        <p>Totale prijs:</p>
+                        <p>Vanaf €{{ totalPrice }} ({{ formatTime(totalDuration) }})</p>
+                    </div>
+                    <!-- <button
+                        class="w-full h-[50px] bg-darkPink-0 text-white-0 select-none" 
+                        data-cal-namespace="" 
+                        [attr.data-cal-link]="getCalendarID(totalDuration)" 
+                        [attr.data-cal-config]="getCalConfig()">
+                        Ga verder
+                    </button> -->
+                    <button (click)="openBookingModal()" class="w-full h-[50px] bg-darkPink-0 text-white-0 select-none">
+                        Ga verder
+                    </button>    
+                </footer>
+            </div>
+        </div>
+    </div>
+    
+    
+
+</main>

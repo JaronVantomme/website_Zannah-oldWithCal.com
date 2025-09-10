@@ -1,0 +1,232 @@
+.dashboard-container {
+    display: flex;
+    height: 100dvh;
+  
+    .sidebar {
+      width: 250px;
+      background-color: #FFFFFF;
+      color: black;
+      padding: 1rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      border-right: 5px solid rgba(0, 0, 0, 0.1);
+  
+      nav ul {
+        margin-top: 40px;
+        list-style: none;
+        padding: 0;
+  
+        li {
+            height: 45px;
+            margin: 0 10px 0 10px;
+          a {
+            text-decoration: none;
+            color: black;
+            font-size: 1rem;
+          }
+
+          button {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: start;
+            align-items: center;
+            gap: 15px;
+            padding-left: 15px;
+
+            svg {
+                width: 20px;
+                height: 20px;
+            }
+          }
+
+          .active {
+            color: #911439;
+            box-shadow: inset 4px 0 0 #911439;
+            background-color: #91143920;
+            border-radius: 5px;
+            
+          }
+        }
+      }
+  
+      hr {
+        border: 0;
+        height: 1px;
+        background-color: #ffffff;
+        margin: 1rem 0;
+      }
+  
+      .darkmode-toggle {
+        cursor: pointer;
+      }
+    }
+
+    .sidebar--logo {
+      height: 50px;
+      text-align: center;
+    }
+  
+    .main-content {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      background-color: #EEEEEE;
+      height: 100dvh;
+      overflow: hidden;
+  
+      .navbar {
+        background-color: white;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0.5rem 2rem 0.5rem 1rem;
+        border-bottom: 5px solid rgba(0, 0, 0, 0.1);
+        height: 60px;
+        position: sticky;
+        top: 0;
+        z-index: 100;
+
+        .navbar-left {
+          display: flex;
+          align-items: center;
+          gap: 5px;
+        }
+  
+        .page-title {
+          font-size: 1.5rem;
+          margin: 0;
+        }
+  
+        .user-info {
+          display: flex;
+          align-items: center;
+  
+          .user-avatar {
+            background-color: #911439;
+            color: white;
+            border-radius: 5px;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-weight: bold;
+          }
+  
+          .user-details {
+            display: flex;
+            flex-direction: column;
+            margin-left: 1rem;
+  
+            .user-name {
+              font-weight: bold;
+            }
+  
+            .user-role {
+              font-size: 0.85rem;
+              color: #911439;
+            }
+          }
+
+          svg {
+            margin-left: 10px;
+          }
+        }
+      }
+    }
+  }
+
+  .page-container {
+    flex: 1;
+    overflow-y: auto;
+    padding: 1rem;
+  }
+  
+.sidebar {
+  position: fixed;
+  top: 0;
+  left: -250px;
+  height: 100dvh;
+  width: 250px;
+  background-color: #fff;
+  color: black;
+  transition: left 0.3s ease-in-out;
+  z-index: 200;
+}
+
+.sidebar.sidebar-open {
+  left: 0;
+}
+
+.sidebar-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.3);
+  z-index: 150;
+}
+
+.hamburger-btn {
+  display: flex;
+  background: none;
+  border: none;
+  cursor: pointer;
+  display: none;
+  height: 100%;
+  padding: 0;
+}
+
+.hamburger-btn svg {
+  height: 24px;
+  width: 24px;
+}
+
+@media (min-width: 769px) {
+  .sidebar--close {
+    display: none;
+  }
+
+  .sidebar {
+    position: relative;
+    left: 0 !important;
+  }
+  .sidebar-overlay {
+    display: none;
+  }
+}
+
+
+@media (max-width: 768px) {
+  .hamburger-btn {
+    display: block;
+    margin-right: 10px;
+    align-items: center;
+  }
+
+  .sidebar {
+    border-right: none;
+  }
+
+  .sidebar--close {
+    display: block;
+    position: absolute;
+    top: 16px;
+    left: 16px;
+  }
+
+  .dashboard-container {
+    flex-direction: column;
+  }
+
+  .user-details {
+    display: none !important;
+  }
+
+  .page-container {
+    padding: 0;
+  }
+}

@@ -1,0 +1,9 @@
+.input-error {
+    border-color: red;
+    color: red;
+}
+
+.input-error::placeholder {
+    color: red;
+}
+  

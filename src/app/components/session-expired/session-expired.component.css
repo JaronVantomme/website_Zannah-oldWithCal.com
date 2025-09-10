@@ -1,0 +1,47 @@
+.modal-overlay {
+    position: fixed;
+    inset: 0;
+    background-color: rgba(0,0,0,0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 999;
+    font-family: Arial, sans-serif;
+}
+  
+.working-days {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    background-color: white;
+    padding: 40px;
+    border-radius: 10px;
+    width: 400px;
+    max-width: 90%;
+    text-align: center;
+}
+  
+.working-days--title {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.working-days h2 {
+    font-size: 20px;
+    margin: 0;
+}
+
+.save-button--active {
+    padding: 10px 20px;
+    background-color: #911439;
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+    border: none;
+    transition: background-color 0.3s ease;
+}
+
+.save-button--active:hover {
+    background-color: #91143980;
+}

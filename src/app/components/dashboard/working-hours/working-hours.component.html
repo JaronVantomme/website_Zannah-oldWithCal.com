@@ -1,0 +1,162 @@
+<button 
+  *ngIf="showTestButton" 
+  class="test-button" 
+  (click)="fetchDataTesting()">
+  Haal data op
+</button>
+
+<app-calendar *ngIf="showCalendar" [daysOfWeek]="daysOfWeek" [overrides]="overrides" [selectedDate]="selectedOverrideDate" (close)="onModalClose()" (saveOverrides)="saveOverrides($event)"></app-calendar>
+
+<div class="availability-container">
+  
+  <!-- Beschikbare Dagen op basis van workingHours -->
+  <div *ngIf="isLoading" class="working-days">
+    <h2>Beschikbaarheid van de Gebruiker</h2>
+    <div style="min-height: 368px;" class="loader-container">
+      <div class="spinner"></div>
+    </div>
+    <h2 style="margin-top: 30px;">Datum overschrijvingen</h2>
+    <div class="loader-container">
+      <div class="spinner"></div>
+    </div>
+  </div>
+  
+  <div *ngIf="!isLoading" class="working-days">
+    <div class="working-days--title">
+      <h2>Beschikbaarheid van de gebruiker</h2>
+      <button [disabled]="isLoading" [ngClass]="timeDataChanged() ? 'save-button--active' : 'save-button'" (click)="timeDataChanged() ? saveData() : null">Opslaan</button>
+    </div>
+    <div *ngFor="let day of daysOfWeek" [ngClass]="day.isOpen ? 'day-container--active' : 'day-container'">
+      <button class="day-toggle" (click)="toggleDay(day)">
+        <div class="day-card--container">
+            <div class="day-card--title">
+                <label class="toggle-switch">
+                    <input type="checkbox" [(ngModel)]="day.active" (click)="toggleActive(day)" />
+                    <span class="slider"></span>
+                </label>
+                <p>{{ day.name }}</p>
+                <p class="day-card--times">{{ createTimesLine(day) }}</p>
+            </div>
+            <svg [style.transform]="day.isOpen ? 'rotate(0deg)' : 'rotate(180deg)'"  xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chevron-up"><path d="m18 15-6-6-6 6"/></svg>
+        </div>    
+      </button>
+      <div *ngIf="day.isOpen" class="day-details">
+        <!-- Controleer of er geen tijdstippen zijn -->
+        <div *ngIf="day.times.length === 0" class="empty-time-interval">
+          <div class="time-selector-container">
+            <div class="custom-dropdown">
+              <div class="custom-select" (click)="toggleDropdown('startTime', 0, null)">
+                <span>Selecteer</span>
+              </div>
+              <ul *ngIf="dropdownOpen === 'startTime-0'" class="dropdown-options">
+                <li 
+                  *ngFor="let option of getTimeOptions('startTime', day, 0)" 
+                  (click)="selectTime('startTime', option, 0)">
+                  {{ formatTime(option) }}
+                </li>
+              </ul>
+            </div>
+            <p>tot</p>
+            <div class="custom-dropdown">
+              <div class="custom-select" (click)="toggleDropdown('endTime', 0, null)">
+                <span>Selecteer</span>
+              </div>
+              <ul *ngIf="dropdownOpen === 'endTime-0'" class="dropdown-options">
+                <li 
+                  *ngFor="let option of getTimeOptions('endTime', day, 0)" 
+                  (click)="selectTime('endTime', option, 0)">
+                  {{ formatTime(option) }}
+                </li>
+              </ul>
+            </div>
+            <button class="add-time-button" (click)="addTime(day)">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-circle-plus">
+                <circle cx="12" cy="12" r="10"/>
+                <path d="M8 12h8"/>
+                <path d="M12 8v8"/>
+              </svg>
+            </button>
+          </div>
+        </div>
+      
+        <!-- Toon de bestaande tijdsintervallen -->
+        <div *ngFor="let time of day.times; let i = index" class="time-interval">
+          <div class="time-selector-container">
+            <div class="custom-dropdown">
+              <div class="custom-select" (click)="toggleDropdown('startTime', i, time.startTime)">
+                <span>{{ formatTime(time.startTime) || 'Selecteer' }}</span>
+              </div>
+              <ul *ngIf="dropdownOpen === 'startTime-' + i" class="dropdown-options">
+                <li 
+                  #timeOption
+                  [class.selected]="option === time.startTime"  
+                  *ngFor="let option of getTimeOptions('startTime', day, i)" 
+                  (click)="selectTime('startTime', option, i)">
+                  {{ formatTime(option) }}
+                </li>
+              </ul>
+            </div>
+      
+            <p>tot</p>
+      
+            <div class="custom-dropdown">
+              <div class="custom-select" (click)="toggleDropdown('endTime', i, time.endTime)">
+                <span>{{ formatTime(time.endTime) || 'Selecteer' }}</span>
+              </div>
+              <ul *ngIf="dropdownOpen === 'endTime-' + i" class="dropdown-options">
+                <li 
+                  #timeOption
+                  [class.selected]="option === time.endTime" 
+                  *ngFor="let option of getTimeOptions('endTime', day, i)" 
+                  (click)="selectTime('endTime', option, i)">
+                  {{ formatTime(option) }}
+                </li>
+              </ul>
+            </div>
+            <button class="add-time-button" (click)="removeTime(day, i)">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-trash-2">
+                <path d="M3 6h18"/>
+                <path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/>
+                <path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/>
+                <line x1="10" x2="10" y1="11" y2="17"/>
+                <line x1="14" x2="14" y1="11" y2="17"/>
+              </svg>
+            </button>
+            <button *ngIf="i === day.times.length - 1" class="add-time-button" (click)="addTime(day)">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-circle-plus">
+                <circle cx="12" cy="12" r="10"/>
+                <path d="M8 12h8"/>
+                <path d="M12 8v8"/>
+              </svg>
+            </button>
+          </div>
+        </div>
+      </div>
+      
+      
+    </div>
+
+    <h2 style="margin-top: 30px;">Datum overschrijvingen</h2>
+    <ul class="day-list">
+      <li>
+        <div class="override-container">
+          <button class="override-add" (click)="addDateOverride()">
+            +
+          </button>
+        </div>
+      </li>
+      <li *ngFor="let override of overrides">
+        <div class="override-container">
+          <div class="override-date">
+            <p>{{ override.title }}</p>
+            <p>{{ createTimesLine(override) }}</p>
+          </div>
+          <div class="override-buttons">
+            <button (click)="editOverride(override.date)"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-pencil"><path d="M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497z"/><path d="m15 5 4 4"/></svg></button>
+            <button (click)="deleteOverride(override.date)" class="delete-button"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-trash-2"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/><line x1="10" x2="10" y1="11" y2="17"/><line x1="14" x2="14" y1="11" y2="17"/></svg></button>
+          </div>
+        </div>
+      </li>
+    </ul>
+  </div>
+</div>

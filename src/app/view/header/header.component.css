@@ -1,0 +1,72 @@
+header {
+    position: relative;
+    z-index: 2;
+}
+
+.burger-menu {
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 30px;
+    height: 25px;
+}
+
+.burger-menu .bar1,
+.burger-menu .bar2,
+.burger-menu .bar3 {
+    height: 4px;
+    width: 100%;
+    background-color: #fff;
+    transition: 0.4s;
+}
+
+/* Rotate bars when burger menu is clicked */
+.burger-menu.change .bar1 {
+    transform: rotate(-45deg) translate(-5px, 6px);
+}
+
+.burger-menu.change .bar2 {
+    opacity: 0;
+}
+
+.burger-menu.change .bar3 {
+    transform: rotate(45deg) translate(-5px, -6px);
+}
+
+/* Navigation menu styles */
+.nav-menu {
+    height: 100%;
+    width: 0;
+    position: fixed;
+    top: 0;
+    right: 0;
+    background-color: #111;
+    overflow-x: hidden;
+    transition: 0.5s;
+    padding-top: 60px;
+    z-index: 1;
+}
+
+.nav-menu ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.nav-menu ul li {
+    padding: 10px 15px;
+    text-align: center;
+    margin: 20px 0;
+    font-size: 25px;
+    color: #fff;
+    cursor: pointer;
+}
+
+.nav-menu ul li:hover {
+    color: #f1f1f1;
+}
+
+.nav-menu.open {
+    width: 250px;
+}
+

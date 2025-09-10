@@ -1,0 +1,133 @@
+<app-popup
+  *ngIf="showUnsavedModal"
+  title='Niet-opgeslagen wijzigingen'
+  desciption="Hey Zannah, je hebt nog wijzigingen die niet zijn opgeslagen. Wil je doorgaan met aanpassen of het scherm afsluiten zonder op te slaan?"
+  button1="Afsluiten"
+  button2="Doorgaan"
+  (save)="onSaveChanges()"
+  (discard)="onDiscardChanges()">
+</app-popup>
+
+<div *ngIf="showConfirmDialog" class="confirmation-overlay">
+  <div class="confirmation-dialog">
+    <button class="close-confirm" (click)="cancelPendingSelection()">×</button>
+    <div class="confirmation-title">Tijdselectie bevestigen</div>
+    <p>Wil je de geselecteerde tijdsblokken toevoegen of verwijderen?</p>
+    <div class="confirmation-actions">
+      <button class="btn confirm-add" (click)="confirmPendingSelection('add')">Toevoegen</button>
+      <button class="btn confirm-remove" (click)="confirmPendingSelection('remove')">Verwijderen</button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal -->
+<div class="modal-overlay">
+  <div class="modal-content">
+    <button class="close-button" (click)="closeModal()">×</button>
+
+    <div class="calendar-container">
+      <!-- Kalender -->
+      <div class="calendar-left">
+        <div class="calendar-header">
+          <button (click)="previousMonth()">&#8592;</button>
+          <div class="month-label">
+            {{ getCurrentMonthName() }} {{ currentYear }}
+          </div>
+          <button (click)="nextMonth()">&#8594;</button>
+        </div>
+
+        <div class="calendar-weekdays">
+          <div *ngFor="let day of weekdayNames">{{ day }}</div>
+        </div>
+
+        <div class="calendar-days">
+          <div
+            *ngFor="let d of calendarGrid"
+            [class.filled]="d !== null && hasTimesForDay(createDate(d))"
+            [class.selected]="d !== null && isSelected(d)"
+            [class.today]="d !== null && isToday(d)"
+            [class.removed-day]="d !== null && isDayCompletelyRemoved(d)"
+            [class.added-day]="d !== null && isOnlyAddedDay(d)"
+            [class.disabled]="d !== null && isPastDate(d)"
+            (click)="d !== null && !isPastDate(d) && selectDate(d)">
+            {{ d || '' }}
+            <span *ngIf="hasAddedTimes(d)" class="indicator-dot"></span>
+          </div>
+        </div>
+        <div class="calendar-legend">
+          <div class="legend-item">
+            <span class="day-box selected"></span>
+            <span>Geselecteerde dag</span>
+          </div>
+          <div class="legend-item">
+            <span class="day-box filled"></span>
+            <span>Dag waarop je moet werken</span>
+          </div>
+          <div class="legend-item">
+            <span class="day-box filled">
+              <span class="indicator-dot"></span>
+            </span>
+            <span>Dag met handmatige aanpassing</span>
+          </div>
+          <div class="legend-item">
+            <span class="day-box removed-day"></span>
+            <span>Dag waarop je niet meer werkt</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tijdslots -->
+      <div class="calendar-right">
+        <div class="time-header">
+          <span>
+            {{ selectedDate.toLocaleDateString('nl-NL', { weekday: 'short', day: 'numeric' }) }}
+          </span>
+          <div class="block-day-toggle">
+            <label class="toggle-wrapper">
+              <input type="checkbox" [checked]="isWholeDayRemoved(selectedDate)" (change)="toggleWholeDay()" />
+              <span class="slider"></span>
+              <span class="label-text">
+                {{ isWholeDayRemoved(selectedDate) ? 'Rustdag' : 'Werkdag' }}
+              </span>
+            </label>
+          </div>
+        </div>
+        
+        <div class="time-slots">
+          <button
+            *ngFor="let time of getTimeSlots()"
+            [id]="'slot-' + time" #slotElements
+            [ngClass]="{
+              'active': isTimeSelected(time) && !wasOriginallySelectedButRemoved(time),
+              'removed': wasOriginallySelectedButRemoved(time),
+              'original': wasOriginallySelected(time) && !wasOverridden(time),
+              'blink': this.startTimeOnHold === time,
+              'past-slot': isPastTimeSlot(time)
+            }"
+            (pointerdown)="onPressStart(time, $event)"
+            (pointerup)="onPressEnd(time, $event)"
+            (pointercancel)="onPressCancel()"
+            (pointerleave)="onPressCancel()">
+            {{ time }}
+          </button>
+        </div>
+
+        <div class="time-legend">
+          <div class="legend-item">
+            <span class="slot-box added"></span>
+            <span>Nieuw geselecteerd</span>
+          </div>
+          <div class="legend-item">
+            <span class="slot-box original"></span>
+            <span>Standaard actief</span>
+          </div>
+          <div class="legend-item">
+            <span class="slot-box removed"></span>
+            <span>Verwijderd (was actief)</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <button class="save-button" (click)="saveChanges()">OPSLAAN</button>
+  </div>
+</div>

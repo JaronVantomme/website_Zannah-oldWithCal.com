@@ -1,0 +1,105 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Scrollbar voor Webkit-browsers (Chrome, Safari) */
+::-webkit-scrollbar {
+    width: 12px; /* Breedte van de scrollbar */
+  }
+  
+  ::-webkit-scrollbar-track {
+    background: #FAEFED; /* Transparante achtergrond voor de scrollbar track */
+  }
+  
+  ::-webkit-scrollbar-thumb {
+    background-color: #B9677D; /* Kleur van de scrollbar */
+    border-radius: 10px; /* Rondingen van de scrollbar */
+    border: 3px solid transparent; /* Ruimte rondom de scrollbar */
+  }
+  
+  ::-webkit-scrollbar-thumb:hover {
+    background: #B9677D; /* Kleur van de scrollbar bij hover */
+  }
+  
+  /* Scrollbar voor Firefox */
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: #B9677D transparent;
+  }
+
+
+  /* Basis CSS-styling voor tekstselectie */
+  ::selection {
+    background-color: #B9677D; /* darkPink */
+    color: #FAEFED; /* lightPink */
+  }
+
+  ::-moz-selection {
+      background-color: #B9677D; /* darkPink */
+      color: #FAEFED; /* lightPink */
+  }
+
+  ::-webkit-selection {
+      background-color: #B9677D; /* darkPink */
+      color: #FAEFED; /* lightPink */
+  }
+
+
+
+  
+  html, body {
+    overflow-x: hidden;
+    touch-action: manipulation;
+    -ms-touch-action: manipulation;
+  }
+
+  .nav-button {
+    position: relative;
+    background: none;
+    border: none;
+    cursor: pointer;
+  }
+  
+  .nav-button::before {
+      content: '';
+      position: absolute;
+      width: 0;
+      height: 2px;
+      bottom: 0;
+      left: 0;
+      background-color: currentColor;
+      transition: width 0.3s ease;
+  }
+  
+  .nav-button:hover::before,
+  .nav-button.selected::before {
+      width: 100%;
+  }
+  
+  .selectedServices {
+    font-weight: bold;
+    color: #911439;
+  }
+
+  .boxShadow {
+    box-shadow: 0px 3px 7px 1px rgba(0, 0, 0, 0.25);
+  }
+
+  .hover-effect:hover {
+    opacity: 80%;
+    backdrop-filter: 40%;
+    transform: scale(1.01);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+    transition: all;
+    animation-duration: 300ms;
+    cursor: pointer;
+  }
+
+  .hover-effect2:hover {
+    opacity: 80%;
+    backdrop-filter: 40%;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+    transition: all;
+    animation-duration: 300ms;
+    cursor: pointer;
+  }

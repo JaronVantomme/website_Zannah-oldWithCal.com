@@ -1,0 +1,156 @@
+
+<!-- <div *ngIf="isRescheduleModalOpen" class="fixed inset-0 flex justify-center items-center z-50 bg-black-0 bg-opacity-50">
+    <div class="bg-white w-[90%] max-w-[600px] h-[80%] rounded-lg shadow-lg relative flex flex-col bg-white-0 p-[10px] sm:p-[50px] pt-0 sm:pt-0 overflow-hidden">    
+        <button (click)="isRescheduleModalOpen = false" class="absolute top-2 right-4 text-black font-bold text-lg z-30">&times;</button>
+        <div class="absolute top-0 left-0 w-full h-[50px] bg-[#EFCEC9] z-20 bg-white-0"></div>
+        <iframe [src]="rescheduleUrl | safeUrl" class="w-full h-full rounded-b-lg" frameborder="0"></iframe>
+    </div>
+</div> -->
+
+<div *ngIf="isDeleteModalOpen" class="overlay">
+    <div class="modal-content">
+        <h2 class="text-lg font-bold mb-4">Weet je zeker dat je deze afspraak wilt verwijderen?</h2>
+        <div class="flex justify-end gap-4">
+            <button (click)="closeDeleteModal()" class="px-4 py-2 rounded bg-gray-300 hover:bg-gray-400">Annuleren</button>
+            <button (click)="confirmDelete()" class="px-4 py-2 rounded bg-red-500 text-white hover:bg-red-600">Verwijderen</button>
+        </div>
+    </div>
+</div>
+
+<app-calendar-popup
+    *ngIf="isRescheduleModalOpen"
+    [bookingData]="this.bookingData"
+    (close)="closePopup()">
+</app-calendar-popup>
+
+
+<div class="w-screen h-fit flex flex-col items-center justify-center">
+    <section class="flex w-fit justify-center gap-4 items-center">
+        <div class="flex w-[100px] h-[100px] rounded-full bg-darkPink-0 justify-center items-center border-4 border-white-0 shadow-lg">
+            <p class="text-white-0 font-medium font-rubik text-[35px] m-auto">{{ getInitials() }}</p>
+        </div>
+        <div class="flex flex-col gap-1">
+            <h1 class="font-medium font-rubik text-[20px]">{{ user.firstName }} {{ user.lastName }}</h1>
+            <div class="flex gap-1">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-calendar-days"><path d="M8 2v4"/><path d="M16 2v4"/><rect width="18" height="18" x="3" y="4" rx="2"/><path d="M3 10h18"/><path d="M8 14h.01"/><path d="M12 14h.01"/><path d="M16 14h.01"/><path d="M8 18h.01"/><path d="M12 18h.01"/><path d="M16 18h.01"/></svg>
+                <p>{{ bookingCount }} boekingen bij {{ buisnessName }}</p>
+            </div>
+            <h1 *ngIf="isAdmin()" (click)="goTo('home-admin')" class="underline cursor-pointer">Dashboard</h1>
+            <h1 (click)="logout()" class="underline cursor-pointer">Uitloggen</h1>
+        </div>
+    </section>
+
+    <section class="flex flex-row w-full justify-center gap-6 select-none mt-10 mb-5">
+        <button [ngClass]="{'selectedServices selected': selectedService === 'bookingHistory', 'nav-button': true}" 
+            class="desktopTitle3 text-center w-fit cursor-pointer focus-within:outline-none focus-within:text-darkPink-0 focus-within:font-bold focus-within:opacity-80" 
+            (click)="changeOption('bookingHistory')">
+            Boekingsgeschiedenis
+        </button>
+        <button [ngClass]="{'selectedServices selected': selectedService === 'personalInformation', 'nav-button': true}" 
+            class="desktopTitle3 text-center w-fit cursor-pointer focus-within:outline-none focus-within:text-darkPink-0 focus-within:font-bold focus-within:opacity-80" 
+            (click)="changeOption('personalInformation')">
+            Persoonlijke informatie
+        </button>
+    </section>
+
+    <section *ngIf="selectedService === 'bookingHistory'" class="flex h-[500px] min-w-[350px] max-w-[500px] overflow-y-scroll overflow-x-hidden p-5 mb-12">
+        <div *ngIf="!sortedAppointments || sortedAppointments.length === 0" class="text-center text-darkPink-0 font-medium mt-10 w-full">
+            Je hebt nog geen boekingen.
+        </div>
+        <ol *ngIf="sortedAppointments && sortedAppointments.length > 0" class="relative border-s border-g border-darkPink-0 border-dashed h-fit">                  
+           <li *ngFor="let appointment of sortedAppointments" class="mb-10 ms-4" [style.opacity]="isPast(appointment) ? '0.5' : '1'">
+                <div class="absolute w-[20px] h-[20px] bg-darkPink-0 rounded-full mt-1.5 -translate-x-1 -start-1.5 border-[5px] border-background-dark-0"></div>
+
+                <time class="mb-1 text-sm font-bold leading-none text-darkPink-0">
+                    {{ getFullDate(appointment) }}
+                  </time>
+
+                <h3 class="text-lg font-semibold text-gray-900 dark:text-white">Services:</h3>
+                <ng-container *ngFor="let service of appointment.services; let last = last">
+                    <p class="text-base font-normal text-black-0" [class.mb-4]="last">{{ service }}</p>
+                </ng-container>
+
+                <div class="flex flex-row gap-2 items-center mb-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-clock-icon">
+                      <path d="M12 6v6l4 2"/>
+                      <circle cx="12" cy="12" r="10"/>
+                    </svg>
+                    <p class="text-sm font-medium">{{ appointment.time }} ({{ appointment.duration }} min)</p>
+                  </div>
+
+                <div (click)="openAddressPage(appointment.address)" class="flex flex-row gap-2 h-5 items-center focus-within:text-darkPink-0 focus-within:font-bold cursor-pointer">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-map-pin"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>
+                    <button class="cursor-pointer focus-within:outline-none">{{ appointment.address }}</button>
+                </div>
+
+                <div *ngIf="canModifyBooking(appointment);" class="flex mt-4 gap-2">
+                    <button (click)="openReschedule(appointment)" class="bg-darkPink-0 text-white-0 px-4 py-1 rounded-md hover:bg-pink-700 transition-colors text-sm">
+                        Verplaatsen
+                    </button>
+                    <button (click)="openDeleteModal(appointment)" class="bg-darkPink-0 text-white-0 px-4 py-1 rounded-md hover:bg-pink-700 transition-colors text-sm">
+                        Verwijderen
+                    </button>
+                </div>
+                <ng-container *ngIf="!canModifyBooking(appointment) && !isStartTimePast(appointment)">
+                    <p class="text-red-0 font-bold mt-4 text-sm max-w-[300px]">
+                      Deze afspraak kan niet meer verplaatst of geannuleerd worden.
+                    </p>
+                </ng-container>
+                
+            </li>
+        </ol>
+    </section>
+
+    
+
+    <form [formGroup]="profileForm" (ngSubmit)="editProfile()" *ngIf="selectedService === 'personalInformation'" class="flex flex-col gap-4 h-[500px] min-w-[350px] max-w-[500px] overflow-y-scroll overflow-x-hidden p-5 mb-12 box-border">
+        <div class="flex gap-4 w-full">
+            <div class="flex flex-col flex-1">
+                <label for="firstName">Voornaam</label>
+                <input formControlName="firstName" id="firstName" name="firstName" type="text"
+                    class="border-b-2 border-darkGray-0 placeholder:text-darkGray-0 bg-background-dark-0 h-9 placeholder:text-white placeholder:opacity-50 focus:outline-none focus:ring w-full box-border"
+                    placeholder="Voornaam">
+                <div *ngIf="profileForm.get('firstName')?.touched && profileForm.get('firstName')?.invalid" class="text-darkPink-0 text-sm">
+                    <div *ngIf="profileForm.get('firstName')?.errors?.['required']">Voornaam is verplicht.</div>
+                </div>
+            </div>
+            <div class="flex flex-col flex-1">
+                <label for="lastName">Achternaam</label>
+                <input formControlName="lastName" id="lastName" name="lastName" type="text"
+                    class="border-b-2 border-darkGray-0 placeholder:text-darkGray-0 bg-background-dark-0 h-9 placeholder:text-white placeholder:opacity-50 focus:outline-none focus:ring w-full box-border"
+                    placeholder="Achternaam">
+                <div *ngIf="profileForm.get('lastName')?.touched && profileForm.get('lastName')?.invalid" class="text-darkPink-0 text-sm">
+                    <div *ngIf="profileForm.get('lastName')?.errors?.['required']">Achternaam is verplicht.</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="flex flex-col w-full opacity-50 relative" (click)="onEmailClick()">
+            <label for="email">Email</label>
+            <div class="flex border-b-2 w-full border-darkGray-0 placeholder:text-darkGray-0 bg-background-dark-0 h-9 placeholder:text-white placeholder:opacity-50 focus:outline-none focus:ring items-center cursor-not-allowed">
+                <p>{{ user.email }}</p>
+            </div>
+            <div *ngIf="showTooltip" class="absolute top-5 left-0 bg-darkPink-0 text-white-0 text-sm p-2 rounded shadow-lg">
+                Email kan niet aangepast worden.
+            </div>
+        </div>
+
+        <div class="flex flex-col w-full">
+            <label for="phoneNumber">Telefoonnummer</label>
+            <input formControlName="phoneNumber" id="phoneNumber" name="phoneNumber" type="text"
+                class="border-b-2 border-darkGray-0 placeholder:text-darkGray-0 bg-background-dark-0 h-9 placeholder:text-white placeholder:opacity-50 focus:outline-none focus:ring w-full box-border"
+                placeholder="Telefoonnummer">
+            <div *ngIf="profileForm.get('phoneNumber')?.touched && profileForm.get('phoneNumber')?.invalid" class="text-darkPink-0 text-sm">
+                <div *ngIf="profileForm.get('phoneNumber')?.errors?.['required']">Telefoonnummer is verplicht.</div>
+                <div *ngIf="!profileForm.get('phoneNumber')?.errors?.['required'] && profileForm.get('phoneNumber')?.errors?.['invalidPhoneNumber']">Ongeldig telefoonnummer formaat.</div>
+            </div>
+        </div>
+        
+        <button [ngStyle]="{ 'opacity': areValuesEqual(initialFormValues, profileForm.value) ? '0.5' : '1', 'cursor': areValuesEqual(initialFormValues, profileForm.value) ? 'not-allowed' : 'pointer' }" type="submit" class="bg-darkPink-0 w-full py-2 rounded-md mt-2 font-medium focus:outline-none focus:ring text-white-0">Profiel aanpassen</button>
+        <div class="w-full text-center">
+            <p class="text-darkPink-0">{{ updateError }}</p>
+        </div>
+    </form>
+
+</div>
+

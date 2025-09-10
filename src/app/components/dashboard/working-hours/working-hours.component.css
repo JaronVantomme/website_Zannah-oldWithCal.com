@@ -1,0 +1,426 @@
+.availability-container {
+  font-family: Arial, sans-serif;
+  width: 100%;
+  height: fit-content;
+  min-height: 100%;
+  padding: 50px;
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+}
+  
+  .working-days {
+    margin: auto;
+    display: flex;
+    position: relative;
+    flex-direction: column;
+    gap: 10px;
+    background-color: white;
+    padding: 40px;
+    border-radius: 10px;
+    min-height: 510px;
+    width: 100%;
+
+    h2{
+      font-size: 20px;
+    }
+  }
+
+  .working-days--title {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+    margin-bottom: 20px;
+    width: 100%;
+  }
+
+  .save-button {
+    padding: 5px 10px;
+    background-color: #91143980;
+    color: white;
+    border-radius: 5px;
+    user-select: none;
+    cursor: not-allowed;
+  }
+
+  .save-button--active {
+    padding: 5px 10px;
+    background-color: #911439;
+    color: white;
+    border-radius: 5px;
+    user-select: none;
+    cursor: pointer;
+  }
+
+  .save-button:hover {
+    background-color: #91143950;
+  }
+  
+  .loader-container {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .spinner {
+    width: 50px;
+    height: 50px;
+    border: 6px solid rgba(0, 0, 0, 0.2);
+    border-top: 6px solid #911439;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+  }
+  
+  @keyframes spin {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+
+  .day-container {
+    outline: 1px solid #91143950;
+    border-radius: 5px;
+    overflow: hidden;
+  }
+
+  .day-container--active {
+    outline: 2px solid #911439;
+    border-radius: 5px;
+  }
+
+  .day-container:hover {
+    outline: 2px solid #911439;
+    border-radius: 5px;
+    overflow: hidden;
+  }
+
+  .day-card--container {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    align-items: center;
+  }
+
+  .day-card--title {
+    display: flex;
+    gap: 20px;
+    width: 100%;
+    align-items: center;
+  }
+
+  .day-card--times {
+    color: gray;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    flex-grow: 1;
+    width: 203px;
+  }
+
+  .day-details {
+    background-color: white;
+    padding: 10px;
+  }
+  
+  .time-selector-container {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 10px;
+  }
+  
+  .custom-select {
+    position: relative;
+    width: 100px;
+  }
+  
+  .custom-select select {
+    width: 100%;
+    padding: 8px;
+    font-size: 14px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+  }
+  
+  .custom-select::after {
+    font-size: 16px;
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    pointer-events: none;
+    color: #333;
+  }
+  
+  span {
+    font-size: 16px;
+    color: #333;
+  }
+  
+  .add-time-button {
+    margin-left: 10px;
+    color: #911439;
+    border: none;
+    cursor: pointer;
+  }
+  
+  .add-time-button:hover {
+    color: #91143950;
+  }
+
+  .toggle-switch {
+    position: relative;
+    display: inline-block;
+    width: 50px;
+    height: 24px;
+    min-width: 50px;
+  }
+
+  .toggle-switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+  }
+
+  .slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    transition: 0.4s;
+    border-radius: 24px;
+  }
+
+  .slider:before {
+    position: absolute;
+    content: '';
+    height: 18px;
+    width: 18px;
+    left: 3px;
+    bottom: 3px;
+    background-color: white;
+    transition: 0.4s;
+    border-radius: 50%;
+  }
+
+  input:checked + .slider {
+    background-color: #911439;
+  }
+
+  input:checked + .slider:before {
+    transform: translateX(26px);
+  }
+  
+  .day-toggle {
+    display: flex;
+    gap: 10px;
+    border: none;
+    padding: 10px 15px;
+    cursor: pointer;
+    text-align: left;
+    width: 100%;
+  }
+  
+  .day-details {
+    background-color: white;
+    padding: 10px;
+  }
+  
+  .time-interval {
+    margin-bottom: 5px;
+  }
+
+.custom-dropdown {
+  position: relative;
+  width: 100px;
+}
+
+.custom-select {
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 8px;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.custom-select:hover {
+  background-color: #f0f0f0;
+}
+
+.custom-select span {
+  font-size: 14px;
+  color: #333;
+}
+
+.custom-select svg {
+  transition: transform 0.3s ease;
+  transform: rotate(0deg);
+}
+
+.dropdown-options {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 100%;
+  background-color: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  max-height: 210px;
+  overflow-y: auto;
+  z-index: 10;
+  user-select: none;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+}
+
+.dropdown-options li {
+  padding: 8px;
+  cursor: pointer;
+}
+
+.dropdown-options li:hover {
+  background-color: #f0f0f0;
+}
+
+.dropdown-options li.selected {
+  background-color: #ddd;
+}
+
+/* Wanneer dropdown open is, de pijl roteren */
+.custom-dropdown .custom-select svg {
+  transform: rotate(180deg);
+}
+  
+.day-list li {
+  margin-bottom: 10px;
+}
+
+.override-add {
+  display: flex;
+  justify-content: center;
+  text-align: center;
+  align-items: center;
+  width: 100%;
+}
+
+.override-container {
+  display: flex;
+  justify-content: space-between;
+  outline: 1px solid #91143950;
+  border-radius: 5px;
+  overflow: hidden;
+  padding: 10px 20px;
+}
+
+.override-date {
+  display: flex;
+  flex-direction: column;
+}
+
+.override-buttons {
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+}
+
+.override-buttons button {
+  padding: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.override-buttons button:nth-child(1):hover {
+  color: #911439;
+}
+
+.override-buttons button:nth-child(2):hover {
+  color: red;
+}
+
+
+.test-button {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background-color: #ff9800;
+  color: white;
+  border: none;
+  border-radius: 50px;
+  padding: 12px 20px;
+  box-shadow: 0px 4px 6px rgba(0,0,0,0.2);
+  cursor: pointer;
+  font-weight: bold;
+  z-index: 1000;
+  transition: background-color 0.3s ease;
+
+  &:hover {
+    background-color: #e68a00;
+  }
+}
+
+@media (max-width: 768px) {
+  .availability-container {
+    padding: 0px;
+  }
+  
+  .working-days {
+    border-radius: 0px;
+    margin: 0;
+    flex: 1;
+  }
+  
+  .save-button {
+    top: 55px;
+  }
+  
+  .day-card--title {
+    flex-wrap: wrap;
+    gap: 5px;
+  }
+  
+  .day-card--title p {
+    flex-basis: 100%;
+    margin: 0;
+  }
+  
+  .day-card--times {
+    white-space: normal;
+    width: auto;
+  }
+}
+
+@media (max-width: 440px) {
+  .working-days {
+    padding: 20px;
+    margin: 0;
+    min-height: 100dvh;
+
+    h2 {
+      max-width: 230px;
+    }
+  }
+
+  .custom-select {
+    width: 80px;
+  }
+
+  .custom-dropdown {
+    width: 80px;
+  }
+}

@@ -1,0 +1,20 @@
+.fixed-container {
+    position: fixed;
+    bottom: 10px;
+    width: 100%;
+    transition: max-height 0.3s ease-in-out;
+    overflow: hidden;
+}
+  
+.collapsed {
+    height: 52px;
+    max-height: 52px;
+}
+  
+.expanded {
+    max-height: 540px;
+}
+
+.cursor-pointer {
+    cursor: pointer;
+}

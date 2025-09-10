@@ -1,0 +1,64 @@
+<header class="desktop:flex bigDesktop:flex smallMobile:hidden mobile:hidden w-screen h-[150px] bg-background-dark-0 justify-between px-40 items-center overflow-x-hidden">
+    <p class="text-[45px] h-[80px] font-satisfy text-darkPink-0 cursor-pointer" (click)="scrollTo('welkom')">{{ buisnessName }}</p>
+    <div class="flex gap-[50px] h-[80px] items-center font-rubik">
+        <button class="nav-button text-[20px] focus-within:outline-none focus-within:text-darkPink-0 focus-within:font-bold" (click)="scrollTo('welkom')">Welkom</button>
+        <button class="nav-button text-[20px] focus-within:outline-none focus-within:text-darkPink-0 focus-within:font-bold" (click)="scrollTo('over-mezelf')">Over mezelf</button>
+        <button class="nav-button text-[20px] focus-within:outline-none focus-within:text-darkPink-0 focus-within:font-bold" (click)="scrollTo('services')">Services</button>
+        <button class="nav-button text-[20px] focus-within:outline-none focus-within:text-darkPink-0 focus-within:font-bold" (click)="scrollTo('contact')">Contact</button>
+        <!-- <button class="nav-button text-[20px] focus-within:outline-none focus-within:text-darkPink-0 focus-within:font-bold" (click)="scrollTo('fotos')">Foto's</button> -->
+    </div>
+    <button *ngIf="!this.isLoggedIn" class="desktop:flex bigDesktop:flex smallMobile:hidden mobile:hidden gap-[50px] h-[80px] items-center font-rubik shadow-none hover:opacity-80">
+        <svg (click)="navigateTo('/login')" xmlns="http://www.w3.org/2000/svg" width="55" height="55" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-circle-user text-darkPink-0 cursor-pointer"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="10" r="3"/><path d="M7 20.662V19a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2v1.662"/></svg>
+    </button>
+    <button (click)="navigateTo('/profile')" *ngIf="!isAdministrator() && this.isLoggedIn" class="desktop:flex bigDesktop:flex smallMobile:hidden mobile:hidden hover-effect2 flex w-[50px] h-[50px] justify-center items-center border-4 rounded-full border-darkPink-0 bg-darkPink-0">
+        <p class="text-white-0 font-medium font-rubik text-[20px]">{{ getInitials() }}</p>
+    </button>
+    <button (click)="navigateTo('/home-admin')" *ngIf="isAdministrator()" class="desktop:flex bigDesktop:flex smallMobile:hidden mobile:hidden hover-effect2 flex w-[50px] h-[50px] justify-center items-center border-4 rounded-full border-darkPink-0 bg-darkPink-0">
+        <p class="text-white-0 font-medium font-rubik text-[20px]">{{ getInitials() }}</p>
+    </button>
+</header>
+
+<header class="desktop:hidden bigDesktop:hidden smallMobile:flex mobile:flex w-screen h-[150px] bg-background-dark-0 justify-between px-10 items-center overflow-hidden relative z-40">
+    <p class="text-[35px] h-[80px] font-satisfy text-darkPink-0 cursor-pointer" (click)="scrollTo('welkom')">Zannah</p>
+    <div class="flex items-center absolute top-10 right-12">
+        <button (click)="toggleMenu()" class="text-white z-50 right-10 top-0">
+            <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path>
+            </svg>
+        </button>
+    </div>
+</header>
+
+<div [ngClass]="{'translate-x-full': !menuOpen, 'translate-x-0': menuOpen}" class="desktop:hidden bigDesktop:hidden smallMobile:flex mobile:flex fixed inset-y-0 right-0 w-screen bg-background-dark-0 transform transition-transform duration-300 z-40">
+    <div class="flex items-center absolute top-8 left-8">
+        <p class="text-[35px] h-[80px] font-satisfy text-darkPink-0 cursor-pointer" (click)="scrollTo('welkom')">Zannah</p>
+    </div>
+    <div class="flex items-center absolute top-12 right-12">
+        <button (click)="toggleMenu()" class="text-white focus:outline-none z-50 fixed right-10 top-10">
+            <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+            </svg>
+        </button>
+    </div>
+    <div class="w-screen h-screen p-20 items-center justify-center flex flex-col gap-5">
+        <button class="nav-button text-[25px]" (click)="scrollTo('welkom')">Welkom</button>
+        <button class="nav-button text-[25px]" (click)="scrollTo('over-mezelf')">Over mezelf</button>
+        <button class="nav-button text-[25px]" (click)="scrollTo('services')">Services</button>
+        <button class="nav-button text-[25px]" (click)="scrollTo('contact')">Contact</button>
+        <!-- <button class="nav-button text-[25px]" (click)="scrollTo('fotos')">Foto's</button> -->
+        <!-- <button class="nav-button text-[25px]" (click)="scrollTo('login')">Login</button> -->
+        <div class="mt-5">
+            <button *ngIf="!this.isLoggedIn" class="gap-[50px] h-[80px] items-center font-rubik shadow-none hover:opacity-80">
+                <svg (click)="mobileNavigateTo('/login')" xmlns="http://www.w3.org/2000/svg" width="55" height="55" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-circle-user text-darkPink-0 cursor-pointer"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="10" r="3"/><path d="M7 20.662V19a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2v1.662"/></svg>
+            </button>
+            <button (click)="mobileNavigateTo('/profile')" *ngIf="!isAdministrator() && this.isLoggedIn" class="hover-effect2 flex w-[50px] h-[50px] justify-center items-center border-4 rounded-full border-darkPink-0 bg-darkPink-0">
+                <p class="text-white-0 font-medium font-rubik text-[20px]">{{ getInitials() }}</p>
+            </button>
+            <button (click)="mobileNavigateTo('/home-admin')" *ngIf="isAdministrator()" class="hover-effect2 flex w-[50px] h-[50px] justify-center items-center border-4 rounded-full border-darkPink-0 bg-darkPink-0">
+                <p class="text-white-0 font-medium font-rubik text-[20px]">{{ getInitials() }}</p>
+            </button>
+        </div>
+    </div>
+</div>
+
+
